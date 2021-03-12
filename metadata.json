@@ -1,12 +1,13 @@
 {
-    "name": "Custom VPN Toggler",
+    "name": "Custom VPN Toggler (and indicator)",
     "description": "Manage VPN from Desktop",
     "shell-version": [
-        "3.36"
+        "3.36",
+        "3.38"
     ],
-    "url": "",
+    "url": "https://gitlab.com/XavierBerger/custom-vpn-toggler",
     "uuid": "custom-vpn-toggler@giteduberger.fr",
     "gettext-domain": "custom-vpn-toggler@giteduberger.fr",
     "settings-schema": "fr.giteduberger.custom-vpn-toggler",
-    "version": 1.0
+    "version": 2
 }
