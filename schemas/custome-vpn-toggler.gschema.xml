@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist gettext-domain="custom-vpn-toggler@giteduberger.fr">
+    <schema path="/fr/giteduberger/custom-vpn-toggler/" id="fr.giteduberger.custom-vpn-toggler">
+        <key name="vpn" type="s" >
+            <default>"/usr/bin/vpn"</default>
+            <summary>VPN command</summary>
+            <description>Command to control VPN.</description>
+        </key>
+        <key name="checktime" type="i" >
+            <default>1</default>
+            <summary>Check time (s)</summary>
+            <description>Set interval checking VPN status</description>
+        </key>
+    </schema>
+</schemalist>

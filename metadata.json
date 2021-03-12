@@ -1,0 +1,12 @@
+{
+    "name": "Custom VPN Toggler",
+    "description": "Manage VPN from Desktop",
+    "shell-version": [
+        "3.36"
+    ],
+    "url": "",
+    "uuid": "custom-vpn-toggler@giteduberger.fr",
+    "gettext-domain": "custom-vpn-toggler@giteduberger.fr",
+    "settings-schema": "fr.giteduberger.custom-vpn-toggler",
+    "version": 1.0
+}
