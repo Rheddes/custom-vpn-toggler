@@ -1,0 +1,19 @@
+# CHANGELOG
+
+## Version 2
+* Update `shell-version`: Add `3.38`
+* Update `Extension web site`: https://gitlab.com/XavierBerger/custom-vpn-toggler
+
+## Version 1
+Initial version.
+
+Extension Features:
+* VPN start and stop
+* Display VPN IP when VPN is connected
+* Update icon to show if VPN is active or not
+* Configure script to use to interact with VPN
+* Configure VPN check interval
+
+Documentation:
+* Add repository README.md
+* Add script example for `netExtender`
