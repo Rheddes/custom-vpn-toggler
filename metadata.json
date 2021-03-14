@@ -1,13 +1,13 @@
 {
+    "description": "Manage VPN from Desktop\n\nThis plugin required an additional script to interact with VPN. \nAn example for netExtender is available on extension repository. \nFollow the link to Extension Web Site and see README.",
+    "gettext-domain": "custom-vpn-toggler@giteduberger.fr",
     "name": "Custom VPN Toggler (and indicator)",
-    "description": "Manage VPN from Desktop",
+    "settings-schema": "fr.giteduberger.custom-vpn-toggler",
     "shell-version": [
         "3.36",
         "3.38"
     ],
     "url": "https://gitlab.com/XavierBerger/custom-vpn-toggler",
     "uuid": "custom-vpn-toggler@giteduberger.fr",
-    "gettext-domain": "custom-vpn-toggler@giteduberger.fr",
-    "settings-schema": "fr.giteduberger.custom-vpn-toggler",
     "version": 2
 }
