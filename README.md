@@ -53,8 +53,6 @@ fi
 
 ## To do
 
-* Perf: Do not perform update when status doesn't change
-* Pref: Warn if script is not present.
 * Menu: Copy IP Address in clipboard when clicking on menu.
 * Menu: Notify that address is available in clipboard.
 * Pref: Allow to disable notification when address is copied in clipboard.
