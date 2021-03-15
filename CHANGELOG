@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## Version 3
+* Fix publication error on https://extensions.gnome.org/extension/4061/custom-vpn-toggler/
+
 ## Version 2
 * Update `shell-version`: Add `3.38`
 * Update `Extension web site`: https://gitlab.com/XavierBerger/custom-vpn-toggler

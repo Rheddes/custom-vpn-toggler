@@ -1,5 +1,7 @@
 # Custom VPN Toggler
 
+https://extensions.gnome.org/extension/4061/custom-vpn-toggler/
+
 ## Gnome Shell extension overview
 
 **Custom VPN Toggler** is a Gnome Shell extension which allow to see the status of a VPN, see IP address associated and permit to start and stop VPN.
@@ -34,7 +36,7 @@ then
 	if [ ! -z ${password} ] 
 	then
 		kill -9 $(pidof netExtender)
-		echo "Y" | netExtender --auto-reconnect -u username -p ${password} -d domain.example.com 99.999.999.999 
+		echo "Y" | netExtender --auto-reconnect -u username -p ${password} -d domain.example.com 999.999.999.999 
 	fi
 fi
 
@@ -48,6 +50,14 @@ then
 	ip addr show ppp0 | perl -ne '/(172.\d+.\d+.\d+)/ and print $1'
 fi
 ```
+
+## To do
+
+* Icon: Draw red icon if script is not configured or not reachable.
+* Menu: Invite user to setup script if not done yet.
+* Pref: Do not pre-configure script. 
+* Pref: Add browsing to defined script.
+* Pref: Warn if script is not present.
 
 ## License and thanks
 
