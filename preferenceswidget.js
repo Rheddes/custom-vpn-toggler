@@ -28,7 +28,7 @@ imports.gi.versions.GLib = "2.0";
 imports.gi.versions.GObject = "2.0";
 imports.gi.versions.Gtk = "3.0";
 
-const {Gdk, Gio, GLib, GObject, Gtk} = imports.gi
+const { Gdk, Gio, GLib, GObject, Gtk } = imports.gi
 
 String.format = imports.format.format;
 
@@ -40,10 +40,10 @@ const _ = Gettext.gettext;
 
 var ColorSetting = GObject.registerClass(
     {
-        GTypeName: (Extension.uuid + '.ColorSetting').replace(/[\W_]+/g,'_')
+        GTypeName: (Extension.uuid + '.ColorSetting').replace(/[\W_]+/g, '_')
     },
-    class ColorSetting extends Gtk.Button{
-        _init(settings, keyName, params={}) {
+    class ColorSetting extends Gtk.Button {
+        _init(settings, keyName, params = {}) {
             super._init({
                 can_focus: true,
                 width_request: 132,
@@ -58,23 +58,23 @@ var ColorSetting = GObject.registerClass(
             this.background_color.parse(string_color);
 
             this.drawingArea = new Gtk.DrawingArea();
-            this.drawingArea.connect('draw', (widget, cr)=>{
+            this.drawingArea.connect('draw', (widget, cr) => {
                 cr.setSourceRGBA(this.background_color.red,
-                                 this.background_color.green,
-                                 this.background_color.blue,
-                                 this.background_color.alpha);
+                    this.background_color.green,
+                    this.background_color.blue,
+                    this.background_color.alpha);
                 cr.rectangle(0,
-                             0,
-                             this.get_allocated_width(),
-                             this.get_allocated_height());
+                    0,
+                    this.get_allocated_width(),
+                    this.get_allocated_height());
                 cr.fill();
             });
             this.add(this.drawingArea);
 
-            this.connect('clicked', ()=>{
+            this.connect('clicked', () => {
                 let color_dialog = new Gtk.ColorChooserDialog();
                 color_dialog.set_rgba(this.background_color);
-                if(color_dialog.run() == Gtk.ResponseType.OK){
+                if (color_dialog.run() == Gtk.ResponseType.OK) {
                     this.background_color = color_dialog.get_rgba();
                     settings.set_value(
                         keyName,
@@ -91,9 +91,9 @@ var ColorSetting = GObject.registerClass(
 /** A Gtk.Switch subclass for boolean GSettings. */
 var BoolSetting = GObject.registerClass(
     {
-        GTypeName: (Extension.uuid + '.BoolSetting').replace(/[\W_]+/g,'_')
+        GTypeName: (Extension.uuid + '.BoolSetting').replace(/[\W_]+/g, '_')
     },
-    class BoolSetting extends Gtk.Switch{
+    class BoolSetting extends Gtk.Switch {
         _init(settings, keyName) {
             super._init({
                 can_focus: true,
@@ -111,7 +111,7 @@ var EnumSetting = GObject.registerClass(
     {
         GTypeName: (Extension.uuid + '.EnumSetting').replace(/[\W_]+/g, '_')
     },
-    class EnumSetting extends Gtk.ComboBoxText{
+    class EnumSetting extends Gtk.ComboBoxText {
 
         _init(settings, keyName) {
             super._init({
@@ -147,8 +147,8 @@ var FlagsSetting = GObject.registerClass(
     {
         GTypeName: (Extension.uuid + '.FlagsSetting').replace(/[\W_]+/g, '_')
     },
-    class FlagsSetting extends Gtk.MenuButton{
-        _init(settings, keyName, params={}) {
+    class FlagsSetting extends Gtk.MenuButton {
+        _init(settings, keyName, params = {}) {
             if (!params.icon) {
                 params.icon = new Gtk.Image({
                     icon_name: "checkbox-checked-symbolic",
@@ -206,7 +206,7 @@ var MaybeSetting = GObject.registerClass(
     {
         GTypeName: (Extension.uuid + '.MaybeSetting').replace(/[\W_]+/g, '_')
     },
-    class MaybeSetting extends Gtk.Button{
+    class MaybeSetting extends Gtk.Button {
 
         _init(settings, keyName) {
             super._init({
@@ -289,7 +289,7 @@ var NumberSetting = GObject.registerClass(
     {
         GTypeName: (Extension.uuid + '.NumberSetting').replace(/[\W_]+/g, '_')
     },
-    class NumberSetting extends Gtk.SpinButton{
+    class NumberSetting extends Gtk.SpinButton {
 
         _init(settings, keyName, type) {
             super._init({
@@ -323,7 +323,7 @@ var NumberSetting = GObject.registerClass(
             } else if (type === "t") {
                 throw TypeError("Can't map 64 bit numbers");
                 [lower, upper] = [0, GLib.MAXUINT64];
-            // TODO: not sure this is working
+                // TODO: not sure this is working
             } else if (type === "d") {
                 [lower, upper] = [2.3E-308, 1.7E+308];
             }
@@ -349,7 +349,7 @@ var RangeSetting = GObject.registerClass(
     {
         GTypeName: (Extension.uuid + '.RangeSetting').replace(/[\W_]+/g, '_')
     },
-    class RangeSetting extends Gtk.Scale{
+    class RangeSetting extends Gtk.Scale {
 
         _init(settings, keyName) {
             super._init({
@@ -387,7 +387,7 @@ var StringSetting = GObject.registerClass(
     {
         GTypeName: (Extension.uuid + '.StringSetting').replace(/[\W_]+/g, '_')
     },
-    class StringSetting extends Gtk.Entry{
+    class StringSetting extends Gtk.Entry {
 
         _init(settings, keyName) {
             super._init({
@@ -438,11 +438,35 @@ var FolderSetting = GObject.registerClass(
     {
         GTypeName: (Extension.uuid + '.FolderSetting').replace(/[\W_]+/g, '_')
     },
-    class FolderSetting extends Gtk.FileChooserButton{
+    class FolderSetting extends Gtk.FileChooserButton {
 
         _init(settings, keyName) {
             super._init({
                 action: Gtk.FileChooserAction.SELECT_FOLDER,
+                can_focus: true,
+                halign: Gtk.Align.END,
+                valign: Gtk.Align.CENTER,
+                visible: true
+            });
+
+            this.set_filename(settings.get_string(keyName));
+            this.connect("file-set", (button) => {
+                settings.set_string(keyName, this.get_filename());
+            });
+        }
+    }
+);
+
+/** A Gtk.FileChooserButton subclass for file GSettings */
+var FileSetting = GObject.registerClass(
+    {
+        GTypeName: (Extension.uuid + '.FileSetting').replace(/[\W_]+/g, '_')
+    },
+    class FileSetting extends Gtk.FileChooserButton {
+
+        _init(settings, keyName) {
+            super._init({
+                action: Gtk.FileChooserAction.OPEN,
                 can_focus: true,
                 halign: Gtk.Align.END,
                 valign: Gtk.Align.CENTER,
@@ -462,7 +486,7 @@ var OtherSetting = GObject.registerClass(
     {
         GTypeName: (Extension.uuid + '.OtherSetting').replace(/[\W_]+/g, '_')
     },
-    class OtherSetting extends Gtk.Entry{
+    class OtherSetting extends Gtk.Entry {
 
         _init(settings, keyName) {
             super._init({
@@ -509,9 +533,9 @@ var Row = GObject.registerClass(
     {
         GTypeName: (Extension.uuid + '.Row').replace(/[\W_]+/g, '_')
     },
-    class Row extends Gtk.ListBoxRow{
+    class Row extends Gtk.ListBoxRow {
 
-        _init(params={}) {
+        _init(params = {}) {
             params = Object.assign({
                 activatable: false,
                 can_focus: false,
@@ -549,7 +573,7 @@ var Setting = GObject.registerClass(
     {
         GTypeName: (Extension.uuid + '.Setting').replace(/[\W_]+/g, '_')
     },
-    class Setting extends Row{
+    class Setting extends Row {
 
         _init(summary, description, widget) {
             super._init({ height_request: 56 });
@@ -586,8 +610,8 @@ var Section = GObject.registerClass(
     {
         GTypeName: (Extension.uuid + '.Section').replace(/[\W_]+/g, '_')
     },
-    class Section extends Gtk.Frame{
-        _init(params={}){
+    class Section extends Gtk.Frame {
+        _init(params = {}) {
             params = Object.assign({
                 width_request: 460,
                 selection_mode: Gtk.SelectionMode.NONE,
@@ -610,7 +634,7 @@ var Section = GObject.registerClass(
             this.list.set_header_func(this._header_func);
         }
 
-        _header_func(row, before){
+        _header_func(row, before) {
             if (before) {
                 row.set_header(
                     new Gtk.Separator({ orientation: Gtk.Orientation.HORIZONTAL })
@@ -623,8 +647,8 @@ var Section = GObject.registerClass(
          * @param {Gtk.ListBoxRow|Row} [row] - The row to add, null to create new
          * @return {Gtk.ListBoxRow} row - The new row
          */
-        addRow(row, params={}) {
-            if (!row) { row = new Row(params);}
+        addRow(row, params = {}) {
+            if (!row) { row = new Row(params); }
             this.list.add(row);
             return row;
         }
@@ -694,8 +718,8 @@ var Page = GObject.registerClass(
     {
         GTypeName: (Extension.uuid + '.Page').replace(/[\W_]+/g, '_')
     },
-    class Page extends Gtk.ScrolledWindow{
-        _init(params={}){
+    class Page extends Gtk.ScrolledWindow {
+        _init(params = {}) {
             params = Object.assign({
                 can_focus: true,
                 hscrollbar_policy: Gtk.PolicyType.NEVER,
@@ -722,7 +746,7 @@ var Page = GObject.registerClass(
          * @param {Section} [section] - The section to add, or null to create new
          * @return {Gtk.Frame} section - The new Section object.
          */
-        addSection(title, section, params={}){
+        addSection(title, section, params = {}) {
             if (typeof title === "string") {
                 let label = new Gtk.Label({
                     can_focus: false,
@@ -750,8 +774,8 @@ var Stack = GObject.registerClass(
     {
         GTypeName: (Extension.uuid + '.Stack').replace(/[\W_]+/g, '_')
     },
-    class Stack extends Gtk.Stack{
-        _init(params={}){
+    class Stack extends Gtk.Stack {
+        _init(params = {}) {
             params = Object.assign({
                 transition_type: Gtk.StackTransitionType.SLIDE_LEFT_RIGHT
             }, params);
@@ -763,13 +787,13 @@ var Stack = GObject.registerClass(
             this.switcher.show_all();
         }
 
-        addPage(id, title, params={}){
+        addPage(id, title, params = {}) {
             let page = new Page(params);
             this.add_titled(page, id, title);
             return page;
         }
 
-        removePage(id){
+        removePage(id) {
             let page = this.get_child_by_name(id);
             this.remove(page);
             page.destroy();

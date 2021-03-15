@@ -2,9 +2,9 @@
 <schemalist gettext-domain="custom-vpn-toggler@giteduberger.fr">
     <schema path="/fr/giteduberger/custom-vpn-toggler/" id="fr.giteduberger.custom-vpn-toggler">
         <key name="vpn" type="s" >
-            <default>"/usr/bin/vpn"</default>
-            <summary>VPN command</summary>
-            <description>Command to control VPN.</description>
+            <default>""</default>
+            <summary>VPN script</summary>
+            <description>Select VPN command to be use by extension.</description>
         </key>
         <key name="checktime" type="i" >
             <default>1</default>

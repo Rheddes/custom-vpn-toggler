@@ -53,11 +53,12 @@ fi
 
 ## To do
 
-* Icon: Draw red icon if script is not configured or not reachable.
-* Menu: Invite user to setup script if not done yet.
-* Pref: Do not pre-configure script. 
-* Pref: Add browsing to defined script.
+* Perf: Do not perform update when status doesn't change
 * Pref: Warn if script is not present.
+* Menu: Copy IP Address in clipboard when clicking on menu.
+* Menu: Notify that address is available in clipboard.
+* Pref: Allow to disable notification when address is copied in clipboard.
+ 
 
 ## License and thanks
 
