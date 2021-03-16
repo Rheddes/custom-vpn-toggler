@@ -35,6 +35,8 @@ const Convenience = Extension.imports.convenience;
 
 const ByteArray = imports.byteArray;
 
+const STATUS = { error: -1, unknown: 0, connected: 1, disconnected: 2 };
+
 var button;
 
 var CustomVpnToggler = GObject.registerClass(
@@ -44,12 +46,10 @@ var CustomVpnToggler = GObject.registerClass(
             super._init(St.Align.START);
             this._settings = Convenience.getSettings();
 
-            this.STATUS = { error: -1, unknown: 0, connected: 1, disconnected: 2 };
-
             /* Icon indicator */
-            this.vpnErrorIcon = new Gio.ThemedIcon({ name: 'security-low' });
-            this.vpnOffIcon = new Gio.ThemedIcon({ name: 'security-medium' });
-            this.vpnOnIcon = new Gio.ThemedIcon({ name: 'security-high' });
+            this.vpnErrorIcon = Gio.icon_new_for_string(Extension.path + '/images/security-low-symbolic.svg');  // error
+            this.vpnOffIcon = Gio.icon_new_for_string(Extension.path + '/images/security-medium-symbolic.svg'); // disconnected
+            this.vpnOnIcon = Gio.icon_new_for_string(Extension.path + '/images/security-high-symbolic.svg');    // connected
 
             let box = new St.BoxLayout();
             this.label = new St.Label({
@@ -75,11 +75,12 @@ var CustomVpnToggler = GObject.registerClass(
             this.settingsMenuItem = new PopupMenu.PopupMenuItem("Settings");
             this.settingsMenuItem.connect('activate', () => {
                 ExtensionUtils.openPrefs();
-                this.prevStatus = this.STATUS.unknown;
+                this._prevStatus = STATUS.unknown;
                 this._update();
             });
             this.menu.addMenuItem(this.settingsMenuItem);
-            let menu_item = new PopupMenu.PopupImageMenuItem('Project Page', this.vpnOffIcon);
+            let menu_item = new PopupMenu.PopupImageMenuItem('Project Page',
+                Gio.icon_new_for_string(Extension.path + '/images/icon.png'));
             menu_item.connect('activate', () => {
                 Gio.app_info_launch_default_for_uri("https://gitlab.com/XavierBerger/custom-vpn-toggler", null);
             });
@@ -88,7 +89,7 @@ var CustomVpnToggler = GObject.registerClass(
             this.menu.addMenuItem(menu_help);
 
             /* Initialization */
-            this.status = this.prevStatus = this.STATUS.unknown;
+            this._status = this._prevStatus = STATUS.unknown;
             this._sourceId = 0;
             this._settings.connect('changed', this._settingsChanged.bind(this));
             this._settingsChanged();
@@ -122,28 +123,28 @@ var CustomVpnToggler = GObject.registerClass(
 
         _update() {
             if (this._getValue('vpn') === "") {
-                this.status = this.STATUS.error;
+                this._status = STATUS.error;
             }
             else {
                 var [ok, stdout, err, ext] = GLib.spawn_command_line_sync('/bin/bash -c "ls ' + this._getValue('vpn') + '"');
                 if (stdout === "") {
-                    this.status = this.STATUS.error;
+                    this._status = STATUS.error;
                 }
                 else {
                     var [ok, out, err, exit] = GLib.spawn_command_line_sync(
                         '/bin/bash -c "' + this._getValue('vpn') + ' ip"');
                     if (out.length > 0) {
-                        this.status = this.STATUS.connected;
+                        this._status = STATUS.connected;
                     }
                     else {
-                        this.status = this.STATUS.disconnected;
+                        this._status = STATUS.disconnected;
                     }
                 }
             }
-            if (this.status != this.prevStatus) {
+            if (this._status != this._prevStatus) {
                 log("vpn status changed");
-                switch (this.status) {
-                    case this.STATUS.connected:
+                switch (this._status) {
+                    case STATUS.connected:
                         this.icon.set_gicon(this.vpnOnIcon);
                         if (this.vpnSwitch) {
                             this.vpnSwitch.setSensitive(true);
@@ -154,10 +155,10 @@ var CustomVpnToggler = GObject.registerClass(
                             this.vpnIp.setSensitive(true);
                             this.vpnIp.label.set_text("IP address: " + ByteArray.toString(out));
                         }
-                        this.prevStatus = this.STATUS.connected;
+                        this._prevStatus = STATUS.connected;
                         break;
 
-                    case this.STATUS.disconnected:
+                    case STATUS.disconnected:
                         this.icon.set_gicon(this.vpnOffIcon);
                         if (this.vpnSwitch) {
                             this.vpnSwitch.label.set_text('Enable VPN');
@@ -166,10 +167,10 @@ var CustomVpnToggler = GObject.registerClass(
                         if (this.vpnIp) {
                             this.vpnIp.label.set_text("VPN disconnected");
                         }
-                        this.prevStatus = this.STATUS.disconnected;
+                        this._prevStatus = STATUS.disconnected;
                         break;
 
-                    case this.STATUS.error:
+                    case STATUS.error:
                         this.icon.set_gicon(this.vpnErrorIcon)
                         if (this.vpnSwitch) {
                             this.vpnSwitch.label.set_text('Script error detected');
@@ -179,7 +180,7 @@ var CustomVpnToggler = GObject.registerClass(
                             this.vpnIp.label.set_text("Please update your setting\nand see help if needed.");
                             this.vpnIp.setSensitive(false);
                         }
-                        this.prevStatus = this.STATUS.error;
+                        this._prevStatus = STATUS.error;
                         break;
                 }
             }

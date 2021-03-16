@@ -6,7 +6,7 @@ https://extensions.gnome.org/extension/4061/custom-vpn-toggler/
 
 **Custom VPN Toggler** is a Gnome Shell extension which allow to see the status of a VPN, see IP address associated and permit to start and stop VPN.
 
-![custom_VPN_Togler.png](custom_VPN_Togler.png)
+![custom_VPN_Togler.png](images/custom_VPN_Togler.png)
 
 ## Prerequisite and configuration
 
