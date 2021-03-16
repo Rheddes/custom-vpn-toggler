@@ -1,10 +1,14 @@
 # CHANGELOG
 
 ## Version 4
-* Only update on status change
+* Only update indicator when VPN status change
 * Embed images into extension
 * Check VPN script availability and warn user if not reachable
-* Use file chooser to select VPN script
+* Use file chooser to select VPN script in preference
+* Copy IP address in clipboard when menu Ip Address is clicked
+* Notify that address is available in clipboard
+* Allow to disable notification when address is copied in clipboard in preference
+* Do not allow check interval bellow 1
 
 ## Version 3
 * Fix publication error on https://extensions.gnome.org/extension/4061/custom-vpn-toggler/

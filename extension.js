@@ -46,6 +46,8 @@ var CustomVpnToggler = GObject.registerClass(
             super._init(St.Align.START);
             this._settings = Convenience.getSettings();
 
+            this._ip = "";
+
             /* Icon indicator */
             this.vpnErrorIcon = Gio.icon_new_for_string(Extension.path + '/images/security-low-symbolic.svg');  // error
             this.vpnOffIcon = Gio.icon_new_for_string(Extension.path + '/images/security-medium-symbolic.svg'); // disconnected
@@ -65,13 +67,27 @@ var CustomVpnToggler = GObject.registerClass(
             this.add_child(box);
 
             /* Start Menu */
+
             this.vpnSwitch = new PopupMenu.PopupSwitchMenuItem('...', { active: true });
             this.vpnSwitch.setToggleState(false);
             this.vpnSwitch.connect('toggled', this._toggleSwitch.bind(this));
-            this.vpnIp = new PopupMenu.PopupMenuItem('Initialisation...');
             this.menu.addMenuItem(this.vpnSwitch);
+
+            this.vpnIp = new PopupMenu.PopupMenuItem('Initialization...');
             this.menu.addMenuItem(this.vpnIp);
+            this.vpnIp.connect('activate', () => {
+                if (this.ip != "") {
+                    St.Clipboard.get_default().set_text(St.ClipboardType.PRIMARY, this._ip);
+                    if (this._getValue('ipnotify') == true) {
+                        Main.notify('IP address ' + this._ip + ' is now available in clipboard', '');
+                    }
+
+                }
+            });
+            St.Clipboard.get_default().set_text(St.ClipboardType.PRIMARY, 'text');
+
             this.menu.addMenuItem(new PopupMenu.PopupSeparatorMenuItem());
+
             this.settingsMenuItem = new PopupMenu.PopupMenuItem("Settings");
             this.settingsMenuItem.connect('activate', () => {
                 ExtensionUtils.openPrefs();
@@ -84,6 +100,7 @@ var CustomVpnToggler = GObject.registerClass(
             menu_item.connect('activate', () => {
                 Gio.app_info_launch_default_for_uri("https://gitlab.com/XavierBerger/custom-vpn-toggler", null);
             });
+
             let menu_help = new PopupMenu.PopupSubMenuMenuItem('Help');
             menu_help.menu.addMenuItem(menu_item);
             this.menu.addMenuItem(menu_help);
@@ -143,6 +160,7 @@ var CustomVpnToggler = GObject.registerClass(
             }
             if (this._status != this._prevStatus) {
                 log("vpn status changed");
+                this._ip = "";
                 switch (this._status) {
                     case STATUS.connected:
                         this.icon.set_gicon(this.vpnOnIcon);
@@ -153,7 +171,8 @@ var CustomVpnToggler = GObject.registerClass(
                         }
                         if (this.vpnIp) {
                             this.vpnIp.setSensitive(true);
-                            this.vpnIp.label.set_text("IP address: " + ByteArray.toString(out));
+                            this._ip = ByteArray.toString(out);
+                            this.vpnIp.label.set_text("IP address: " + this._ip);
                         }
                         this._prevStatus = STATUS.connected;
                         break;
@@ -192,8 +211,9 @@ var CustomVpnToggler = GObject.registerClass(
             if (this._sourceId > 0) {
                 GLib.source_remove(this._sourceId);
             }
+            let checktime = this._getValue('checktime');
             this._sourceId = GLib.timeout_add_seconds(
-                GLib.PRIORITY_DEFAULT, this._getValue('checktime'),
+                GLib.PRIORITY_DEFAULT, checktime > 0 ? checktime : 1,
                 this._update.bind(this));
             log(this._sourceId);
             this._update();

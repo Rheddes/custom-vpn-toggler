@@ -316,7 +316,7 @@ var NumberSetting = GObject.registerClass(
             } else if (type === "i" || type === "h") {
                 [lower, upper] = [GLib.MININT32, GLib.MAXINT32];
             } else if (type === "u") {
-                [lower, upper] = [0, GLib.MAXUINT32];
+                [lower, upper] = [1, GLib.MAXUINT32]; // Min value customized for Custom VPN toggler
             } else if (type === "x") {
                 throw TypeError("Can't map 64 bit numbers");
                 [lower, upper] = [GLib.MININT64, GLib.MAXINT64];
@@ -373,7 +373,7 @@ var RangeSetting = GObject.registerClass(
             });
 
             settings.bind(
-                setting,
+                keyName,
                 this.adjustment,
                 "value",
                 Gio.SettingsBindFlags.DEFAULT
@@ -615,7 +615,7 @@ var Section = GObject.registerClass(
             params = Object.assign({
                 width_request: 460,
                 selection_mode: Gtk.SelectionMode.NONE,
-                margin_bottom: 32
+                margin_bottom: 0
             }, params);
             super._init({
                 can_focus: false,
@@ -729,10 +729,10 @@ var Page = GObject.registerClass(
             super._init(params);
             this.box = new Gtk.Box({
                 can_focus: false,
-                margin_left: 72,
-                margin_right: 72,
-                margin_top: 32,
-                margin_bottom: 32,
+                margin_left: 32,
+                margin_right: 32,
+                margin_top: 8,
+                margin_bottom: 8,
                 orientation: Gtk.Orientation.VERTICAL
             });
             this.add(this.box);

@@ -64,6 +64,9 @@ var CustomVpnTogglerPreferencesWidget = GObject.registerClass(
 
             let checktimeSection = this.addSection("", null, {});
             checktimeSection.addGSetting(settings, "checktime");
+
+            let ipAddressNotificationSection = this.addSection("", null, {});
+            ipAddressNotificationSection.addGSetting(settings, "ipnotify");
         }
     }
 );

@@ -4,7 +4,9 @@ https://extensions.gnome.org/extension/4061/custom-vpn-toggler/
 
 ## Gnome Shell extension overview
 
-**Custom VPN Toggler** is a Gnome Shell extension which allow to see the status of a VPN, see IP address associated and permit to start and stop VPN.
+**Custom VPN Toggler** is a Gnome Shell extension which allow to 
+* See the status of a VPN and permit to start and stop VPN.
+* See IP address associated and permit to copy it in clipboard.
 
 ![custom_VPN_Togler.png](images/custom_VPN_Togler.png)
 
@@ -50,13 +52,6 @@ then
 	ip addr show ppp0 | perl -ne '/(172.\d+.\d+.\d+)/ and print $1'
 fi
 ```
-
-## To do
-
-* Menu: Copy IP Address in clipboard when clicking on menu.
-* Menu: Notify that address is available in clipboard.
-* Pref: Allow to disable notification when address is copied in clipboard.
- 
 
 ## License and thanks
 
