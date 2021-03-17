@@ -47,7 +47,6 @@ var CustomVpnTogglerPreferencesWidget = GObject.registerClass(
             var settings = Convenience.getSettings();
 
             let indicatorSection = this.addSection("", null, {});
-            // var widget = new PreferencesWidget.FileSetting(settings, "vpn");
             indicatorSection.addGSetting(settings, "vpn", PreferencesWidget.FileSetting);
             let help = new Gtk.Label({
                 label: "<small>" +
