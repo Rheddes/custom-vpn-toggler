@@ -24,7 +24,10 @@ VPN command have to implement the following parameters:
 
 Configure the command in **Custom VPN Toggler** setting.
 
-### VPN script - Example for netExtender
+### VPN script
+See `scripts` folder.
+
+Example for netExtender:
 ```bash
 #!/bin/bash
 if [ -z $1 ]
