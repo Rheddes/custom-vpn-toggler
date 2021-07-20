@@ -1,5 +1,8 @@
 # CHANGELOG
 
+## Version 5
+* Add script for `GlobalProtect` from Palo Alto Networks
+
 ## Version 4
 * Only update indicator when VPN status change
 * Embed images into extension
