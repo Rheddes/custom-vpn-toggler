@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<schemalist gettext-domain="custom-vpn-toggler@giteduberger.fr">
-    <schema path="/fr/giteduberger/custom-vpn-toggler/" id="fr.giteduberger.custom-vpn-toggler">
+<schemalist gettext-domain="custom-vpn-toggler@rheddes.nl">
+    <schema path="/nl/rheddes/custom-vpn-toggler/" id="nl.rheddes.custom-vpn-toggler">
         <key name="vpn" type="s" >
             <default>""</default>
             <summary>VPN script</summary>
