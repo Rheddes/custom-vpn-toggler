@@ -433,12 +433,12 @@ var StringSetting = GObject.registerClass(
     }
 );
 
-/** A Gtk.FileChooserButton subclass for folder GSettings */
+/** A Gtk.FileChooserWidget subclass for folder GSettings */
 var FolderSetting = GObject.registerClass(
     {
         GTypeName: (Extension.uuid + '.FolderSetting').replace(/[\W_]+/g, '_')
     },
-    class FolderSetting extends Gtk.FileChooserButton {
+    class FolderSetting extends Gtk.FileChooserWidget {
 
         _init(settings, keyName) {
             super._init({
@@ -457,12 +457,12 @@ var FolderSetting = GObject.registerClass(
     }
 );
 
-/** A Gtk.FileChooserButton subclass for file GSettings */
+/** A Gtk.FileChooserWidget subclass for file GSettings */
 var FileSetting = GObject.registerClass(
     {
         GTypeName: (Extension.uuid + '.FileSetting').replace(/[\W_]+/g, '_')
     },
-    class FileSetting extends Gtk.FileChooserButton {
+    class FileSetting extends Gtk.FileChooserWidget {
 
         _init(settings, keyName) {
             super._init({
