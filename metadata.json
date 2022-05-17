@@ -1,13 +1,15 @@
 {
     "description": "Custom VPN Toggler (and indicator) allows to see the status of a VPN (with its icon), see IP address associated and permit to start and stop VPN (from a menu).\n\nThis plugin required an additional script to interact with VPN. \nAn example for netExtender is available on extension repository. \nFollow the link to Extension Web Site and see README.",
-    "gettext-domain": "custom-vpn-toggler@giteduberger.fr",
+    "gettext-domain": "custom-vpn-toggler@rheddes.nl",
     "name": "Custom VPN Toggler (and indicator)",
-    "settings-schema": "fr.giteduberger.custom-vpn-toggler",
+    "settings-schema": "nl.rheddes.custom-vpn-toggler",
     "shell-version": [
+        "42",
+        "41",
         "3.36",
         "3.38"
     ],
-    "url": "https://gitlab.com/XavierBerger/custom-vpn-toggler",
-    "uuid": "custom-vpn-toggler@giteduberger.fr",
-    "version": 5
+    "url": "https://github.com/Rheddes/custom-vpn-toggler",
+    "uuid": "custom-vpn-toggler@rheddes.nl",
+    "version": 6
 }
